@@ -1,0 +1,22 @@
+@media (min-width: 768px) {
+    #page-wrapper {
+        min-height: 980px;
+    }
+}
+
+.col-lg-12 .table-responsive .dataTables_wrapper {
+    max-width: 99%;
+}
+
+.top-navigation .col-lg-12 .table-responsive .dataTables_wrapper {
+     max-width: 98%;
+}
+
+.title-action {
+    padding-top: 20px;
+}
+
+.img-preview-sm {
+    height: 150px;
+    width: 150px;
+}
