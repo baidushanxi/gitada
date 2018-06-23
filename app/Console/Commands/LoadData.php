@@ -40,7 +40,6 @@ class loadData extends Command
 
         parent::__construct();
 
-
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
         if ($schedule->status == Schedule::STATUS_DOING) {
@@ -163,7 +162,7 @@ class loadData extends Command
             $shop[mb_substr($v['shopName'], 0, 8)] = $v;
         }
 
-        $fileContent = file_get_contents(public_path($file));
+        $fileContent = file_get_contents($file);
         $arr = explode("\n", $fileContent);
         $res = [];
         $createShops = [];
