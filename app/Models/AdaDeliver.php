@@ -10,7 +10,7 @@ class AdaDeliver extends Model
     protected $table = 'adaDeliver';
 
 
-    public $deliverPrice = 3;
+    const PRICE = 3;
 
     public $timestamps = false;
 

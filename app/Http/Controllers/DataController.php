@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdaData;
 use App\Http\Components\AdaData as ScopeAdaData;
+use App\Models\AdaDeliver;
 use App\Models\AdaUnitPrice;
 use App\Models\AdaShop;
 use App\Models\Schedule;
@@ -14,7 +15,6 @@ class DataController extends GeneralController
 {
     protected $redirectTo = '/ada/data';
     public $scopeClass = ScopeAdaData::class;
-    public $deliverPrice =  1.5;
 
     public function index()
     {
@@ -61,7 +61,7 @@ class DataController extends GeneralController
             isset($data[$v->shopId]['shopName']) ? '' : ($data[$v->shopId]['shopName'] = $shops[$v->shopId]->shopName);
             isset($data[$v->shopId]['spread']) ? '' : ($data[$v->shopId]['spread'] = $spreadData[$v->shopId] ?? 0);
             isset($data[$v->shopId]['deliver']) ? '' : ($data[$v->shopId]['deliver'] = $deliverData[$v->shopId] ?? 0);
-            isset($data[$v->shopId]['deliverSum']) ? '' : ($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * $this->deliverPrice;
+            isset($data[$v->shopId]['deliverSum']) ? '' : ($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE;
         }
         ksort($data);
 
@@ -202,7 +202,7 @@ class DataController extends GeneralController
             isset($tmp[$key]['manageSum']) ? $tmp[$key]['manageSum'] += ($v->productNumber * $price[$v->productId]->manage) : $tmp[$key]['manageSum'] = ($v->productNumber * $price[$v->productId]->manage);
             isset($tmp[$key]['spread']) ? '' : ($tmp[$key]['spread'] = $spreadDateData[$key] ?? 0);
             isset($tmp[$key]['deliver']) ? '' : ($tmp[$key]['deliver'] = $deliverData[$key] ?? 0);
-            isset($tmp[$key]['deliverSum']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * $this->deliverPrice;
+            isset($tmp[$key]['deliverSum']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE;
         }
         foreach ($tmp as $v) {
             $v['artificial'] = round(($shops[$v['shopId']]->artificial * $v['amount'] / 100), 2);
@@ -223,7 +223,7 @@ class DataController extends GeneralController
             $sum['manageSum'] = collect($v)->sum('manageSum');
             $sum['spread'] = collect($v)->sum('spread');
             $sum['deliver'] = collect($v)->sum('deliver');
-            $sum['deliverSum'] = (collect($v)->sum('deliver')) * $this->deliverPrice;
+            $sum['deliverSum'] = (collect($v)->sum('deliver')) * AdaDeliver::PRICE;
             $sum['artificial'] = collect($v)->sum('artificial');
             $sum['public'] = collect($v)->sum('public');
             $data[$k]['sum'] = [$sum];
@@ -251,7 +251,7 @@ class DataController extends GeneralController
             $s['manageSum'] = collect($sum)->sum('manageSum');
             $s['spread'] = collect($sum)->sum('spread');
             $s['deliver'] = collect($sum)->sum('deliver');
-            $s['deliverSum'] = collect($sum)->sum('deliver') * $this->deliverPrice;;
+            $s['deliverSum'] = collect($sum)->sum('deliver') * AdaDeliver::PRICE;;
             $s['artificial'] = collect($sum)->sum('artificial');
             $s['public'] = collect($sum)->sum('public');
             $headers[] = [];

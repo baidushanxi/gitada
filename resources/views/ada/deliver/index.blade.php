@@ -31,7 +31,7 @@
                             <tr>
                                 <td>总计</td>
                                 <td>{{ $sum }}</td>
-                                <td>{{ $sum * \App\Models\AdaDeliver:: }}</td>
+                                <td>{{ $sum * \App\Models\AdaDeliver::PRICE }}</td>
 
                             </tr>
                             </thead>
