@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Components\AdaData as ScopeAdaData;
+use App\Models\AdaDeliver;
 use App\Models\AdaShop;
 use App\Models\AdaSpread;
 use DB;
@@ -24,27 +25,34 @@ class DeliverController extends GeneralController
         $scope->block = 'ada.spread.scope';
         $shops = AdaShop::all()->pluck('shopName', 'id');
 
-        $data = AdaSpread::whereRaw($scope->getWhere() . ' AND ' .  $scope->getDateWhere(null, 'date'))->get();
 
-        $sum = [];
-        $sum['wxb'] = $data->sum('wxb');
-        $sum['yxt'] = $data->sum('yxt');
-        $sum['cxt'] = $data->sum('cxt');
-        $sum['ztc'] = $data->sum('ztc');
-        $sum['zhzh'] = $data->sum('zhzh');
-        $sum['jdkc'] = $data->sum('jdkc');
-        $sum['jtk'] = $data->sum('jtk');
-        $sum['taobaofuwu'] = $data->sum('taobaofuwu');
-        $sum['shuadan'] = $data->sum('shuadan');
-        $sum['qita'] = $data->sum('qita');
+        $fileContent = file_get_contents(public_path('ada/Deliver/617.csv'));
+        $arr = explode("\n" ,$fileContent);
 
-        $sum['all'] = 0;
-        foreach ($sum as $v) {
-            $sum['all'] += $v;
+        foreach ($arr as $v){
+            $data = explode(',',$v);
+
+            dump($data);
+            echo mb_convert_encoding($data[1],'utf-8', array('Unicode','ASCII','GB2312','GBK','UTF-8'));
+
         }
 
-        $title = '推广消耗列表';
-        return view('ada.spread.index', compact('title', 'data', 'scope','shops','sum'));
+        exit;
+
+
+
+        $query = "
+            SELECT
+                shopId,
+                SUM(number) as number
+             FROM adaDeliver
+             WHERE {$scope->getWhere()}  AND {$scope->getDateWhere(null, 'date')}
+             GROUP BY shopId
+        ";
+        $data = DB::select($query);
+        $sum = collect($data)->sum('number');
+        $title = '快递列表';
+        return view('ada.deliver.index', compact('title', 'data', 'scope','shops','sum'));
     }
 
 }

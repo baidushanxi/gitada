@@ -6,12 +6,6 @@
 
     @parent
 
-    <div class="col-sm-8">
-        <div class="title-action">
-            <a href="{{ route('ada.spread.create') }}" class="btn btn-primary btn-sm">添加推广费用</a>
-        </div>
-    </div>
-
 @endsection
 
 @section('content')
@@ -30,67 +24,22 @@
                         <table class="table table-hover table-striped tooltip-demo tablesorter">
                             <thead>
                             <tr>
-                                <th>时间</th>
                                 <th>店铺名称</th>
-                                <th>网销宝</th>
-                                <th>营销通</th>
-                                <th>诚信通</th>
-                                <th>直通车充值</th>
-                                <th>京东快车</th>
-                                <th>钻展充值</th>
-                                <th>天猫淘客佣金</th>
-                                <th>淘客服务费</th>
-                                <th>京挑客服务费</th>
-                                <th>京挑客佣金</th>
-                                <th>技术服务费</th>
-                                <th>刷单佣金</th>
-                                <th>试客联盟</th>
-                                <th>软件费</th>
-                                <th>平台使用费</th>
-                                <th>其他推广费</th>
+                                <th>快递数量</th>
+                                <th>快递费用</th>
                             </tr>
                             <tr>
                                 <td>总计</td>
-                                <td>{{ $sum['all'] ?? 0 }}</td>
-                                <td>{{ $sum['wxb'] ?? 0 }}</td>
-                                <td>{{ $sum['yxt'] ?? 0 }}</td>
-                                <td>{{ $sum['cxt'] ?? 0 }}</td>
-                                <td>{{ $sum['ztc'] ?? 0 }}</td>
-                                <td>{{ $sum['jdkc'] ?? 0 }}</td>
-                                <td>{{ $sum['zhzh'] ?? 0 }}</td>
-                                <td>{{ $sum['tk'] ?? 0 }}</td>
-                                <td>{{ $sum['taobaofuwu'] ?? 0 }}</td>
-                                <td>{{ $sum['jtk'] ?? 0 }}</td>
-                                <td>{{ $sum['jtkyj'] ?? 0 }}</td>
-                                <td>{{ $sum['jishufuwu'] ?? 0 }}</td>
-                                <td>{{ $sum['shuadan'] ?? 0 }}</td>
-                                <td>{{ $sum['shikelianmeng'] ?? 0 }}</td>
-                                <td>{{ $sum['rjf'] ?? 0 }}</td>
-                                <td>{{ $sum['pingtaishiyong'] ?? 0 }}</td>
-                                <td>{{ $sum['qita'] ?? 0 }}</td>
+                                <td>{{ $sum }}</td>
+                                <td>{{ $sum * \App\Models\AdaDeliver:: }}</td>
+
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($data as $v)
                                 <tr>
-                                    <td>{{ $v->date }}</td>
                                     <td>{{ $shops[$v->shopId] ?? '' }}</td>
-                                    <td>{{ (float) $v->wxb }}</td>
-                                    <td>{{ (float) $v->yxt }}</td>
-                                    <td>{{ (float) $v->cxt }}</td>
-                                    <td>{{ (float) $v->ztc }}</td>
-                                    <td>{{ (float) $v->jdkc }}</td>
-                                    <td>{{ (float) $v->zhzh }}</td>
-                                    <td>{{ (float) $v->tk }}</td>
-                                    <td>{{ (float) $v->taobaofuwu }}</td>
-                                    <td>{{ (float) $v->jtk }}</td>
-                                    <td>{{ (float) $v->jtkyj }}</td>
-                                    <td>{{ (float) $v->jishufuwu }}</td>
-                                    <td>{{ (float) $v->shuadan }}</td>
-                                    <td>{{ (float) $v->shikelianmeng }}</td>
-                                    <td>{{ (float) $v->rjf }}</td>
-                                    <td>{{ (float) $v->pingtaishiyong }}</td>
-                                    <td>{{ (float) $v->qita }}</td>
+                                    <td>{{ $v->number }}</td>
                                 </td>
                                 </tr>
                             @endforeach
