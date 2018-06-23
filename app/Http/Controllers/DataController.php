@@ -203,7 +203,7 @@ class DataController extends GeneralController
             isset($tmp[$key]['manageSum']) ? $tmp[$key]['manageSum'] += ($v->productNumber * $price[$v->productId]->manage) : $tmp[$key]['manageSum'] = ($v->productNumber * $price[$v->productId]->manage);
             isset($tmp[$key]['spread']) ? '' : ($tmp[$key]['spread'] = $spreadDateData[$key] ?? 0);
             isset($tmp[$key]['deliver']) ? '' : ($tmp[$key]['deliver'] = $deliverData[$key] ?? 0);
-            isset($tmp[$key]['deliverSum0']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE0;
+            isset($tmp[$key]['deliverSum0']) ? '' : ($tmp[$key]['deliverSum0'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE0;
             isset($tmp[$key]['deliverSum']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE;
         }
         foreach ($tmp as $v) {
