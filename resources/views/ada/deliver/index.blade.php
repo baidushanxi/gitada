@@ -25,12 +25,14 @@
                             <thead>
                             <tr>
                                 <th>店铺名称</th>
-                                <th>快递数量</th>
-                                <th>快递费用</th>
+                                <th>包裹数量</th>
+                                <th>快递费用1</th>
+                                <th>快递费用2</th>
                             </tr>
                             <tr>
                                 <td>总计</td>
                                 <td>{{ $sum }}</td>
+                                <td>{{ $sum * \App\Models\AdaDeliver::PRICE0 }}</td>
                                 <td>{{ $sum * \App\Models\AdaDeliver::PRICE }}</td>
 
                             </tr>

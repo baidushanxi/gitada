@@ -42,8 +42,9 @@
                                 <th>生产费用</th>
                                 <th>管理费用</th>
                                 <th>推广费用</th>
-                                <th>快递数量</th>
-                                <th>快递费用</th>
+                                <th>包裹数量</th>
+                                <th>快递费用1</th>
+                                <th>快递费用2</th>
                                 <th>人工分摊</th>
                                 <th>公共分摊</th>
                             </tr>
@@ -59,6 +60,7 @@
                                  <td>{{ round(($v['produceSum']),2) }}</td>
                                  <td>{{ round(($v['manageSum']),2) }}</td>
                                  <td>{{ $v['deliver'] }}</td>
+                                 <td>{{ $v['deliverSum0'] }}</td>
                                  <td>{{ $v['deliverSum'] }}</td>
                                  <td>{{ round(($v['spread']),2) }}</td>
                                  <td>{{ round(($shops[$key]->artificial * $v['amount'] /100),2) }}</td>

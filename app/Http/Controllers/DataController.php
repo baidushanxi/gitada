@@ -61,6 +61,7 @@ class DataController extends GeneralController
             isset($data[$v->shopId]['shopName']) ? '' : ($data[$v->shopId]['shopName'] = $shops[$v->shopId]->shopName);
             isset($data[$v->shopId]['spread']) ? '' : ($data[$v->shopId]['spread'] = $spreadData[$v->shopId] ?? 0);
             isset($data[$v->shopId]['deliver']) ? '' : ($data[$v->shopId]['deliver'] = $deliverData[$v->shopId] ?? 0);
+            isset($data[$v->shopId]['deliverSum0']) ? '' : ($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE0;
             isset($data[$v->shopId]['deliverSum']) ? '' : ($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE;
         }
         ksort($data);
@@ -202,6 +203,7 @@ class DataController extends GeneralController
             isset($tmp[$key]['manageSum']) ? $tmp[$key]['manageSum'] += ($v->productNumber * $price[$v->productId]->manage) : $tmp[$key]['manageSum'] = ($v->productNumber * $price[$v->productId]->manage);
             isset($tmp[$key]['spread']) ? '' : ($tmp[$key]['spread'] = $spreadDateData[$key] ?? 0);
             isset($tmp[$key]['deliver']) ? '' : ($tmp[$key]['deliver'] = $deliverData[$key] ?? 0);
+            isset($tmp[$key]['deliverSum0']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE0;
             isset($tmp[$key]['deliverSum']) ? '' : ($tmp[$key]['deliverSum'] = $deliverData[$key] ?? 0) * AdaDeliver::PRICE;
         }
         foreach ($tmp as $v) {
@@ -223,13 +225,14 @@ class DataController extends GeneralController
             $sum['manageSum'] = collect($v)->sum('manageSum');
             $sum['spread'] = collect($v)->sum('spread');
             $sum['deliver'] = collect($v)->sum('deliver');
+            $sum['deliverSum0'] = (collect($v)->sum('deliver')) * AdaDeliver::PRICE0;
             $sum['deliverSum'] = (collect($v)->sum('deliver')) * AdaDeliver::PRICE;
             $sum['artificial'] = collect($v)->sum('artificial');
             $sum['public'] = collect($v)->sum('public');
             $data[$k]['sum'] = [$sum];
         }
 
-        $headers[] = ['时间', '店铺', '价税合计', '销售成本', '资材费用', '制料费用', '生产费用', '管理费用', '推广费用', '快递数量','快递费用','人工分摊', '公共分摊',];
+        $headers[] = ['时间', '店铺', '价税合计', '销售成本', '资材费用', '制料费用', '生产费用', '管理费用', '推广费用', '快递数量','快递费用1','快递费用2','人工分摊', '公共分摊',];
         \Excel::create(date('Y-m-d', strtotime($scope->getStartDateTime())) . '-' . date('Y-m-d', strtotime($scope->getEndDateTime())). '利润预估', function ($excel) use ($data, $headers) {
             $sum = [];
             foreach ($data as $k => $v) {
@@ -251,7 +254,8 @@ class DataController extends GeneralController
             $s['manageSum'] = collect($sum)->sum('manageSum');
             $s['spread'] = collect($sum)->sum('spread');
             $s['deliver'] = collect($sum)->sum('deliver');
-            $s['deliverSum'] = collect($sum)->sum('deliver') * AdaDeliver::PRICE;;
+            $s['deliverSum0'] = collect($sum)->sum('deliver') * AdaDeliver::PRICE0;
+            $s['deliverSum'] = collect($sum)->sum('deliver') * AdaDeliver::PRICE;
             $s['artificial'] = collect($sum)->sum('artificial');
             $s['public'] = collect($sum)->sum('public');
             $headers[] = [];
