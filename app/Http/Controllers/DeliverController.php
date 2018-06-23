@@ -25,22 +25,6 @@ class DeliverController extends GeneralController
         $scope->block = 'ada.spread.scope';
         $shops = AdaShop::all()->pluck('shopName', 'id');
 
-
-        $fileContent = file_get_contents(public_path('ada/Deliver/617.csv'));
-        $arr = explode("\n" ,$fileContent);
-
-        foreach ($arr as $v){
-            $data = explode(',',$v);
-
-            dump($data);
-            echo mb_convert_encoding($data[1],'utf-8', array('Unicode','ASCII','GB2312','GBK','UTF-8'));
-
-        }
-
-        exit;
-
-
-
         $query = "
             SELECT
                 shopId,
