@@ -52,8 +52,7 @@ class loadData extends Command
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
             $lastFiles = $this->getLastExcelFiles('ada/Excel/', $schedule->op_time);
             $priceFile = $this->getLastExcelFiles('ada/UnitPrice/', $schedule->op_time);
-            $deliverFile = [];
-           // $deliverFile = $this->getLastExcelFiles('ada/Deliver/', $schedule->op_time);
+            $deliverFile = $this->getLastExcelFiles('ada/Deliver/', $schedule->op_time);
             if ($priceFile) {
                 $this->loadUnitPrice();
             }
@@ -261,12 +260,12 @@ class loadData extends Command
      */
     public function dealData($fileName)
     {
-        $data = $this->getDataFromExcel($fileName, 0);
-//        $handle = fopen(base_path($fileName), "r");
-//        while (($res = fgetcsv($handle, 1000, ",")) !== FALSE) {
-//            $data[] = $res;
-//        }
-//        fclose($handle);
+//        $data = $this->getDataFromExcel($fileName, 0);
+        $handle = fopen(base_path($fileName), "r");
+        while (($res = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $data[] = $res;
+        }
+        fclose($handle);
 
         $sumData = [];
         $shopNames = [];
@@ -278,8 +277,7 @@ class loadData extends Command
                 $shopname = trim($v[1]);
             }
 
-            list($date, $productId, $productName, $productSize, $productNumber, $amount, $cost, $profit, $summary) = [$this->dealWithDate($v[2]), $v[7], $v[8], $v[9], (int)$v[14], (float)$v[17], (float)$v[22], (float)$v[23], trim($v[24]),];
-
+            list($date, $productId, $productName, $productSize, $productNumber, $amount, $cost, $profit, $summary) = [str_replace('/','-',$this->iconvs($v[2])), $this->iconvs($v[7]), $this->iconvs($v[8]), $this->iconvs($v[9]), $this->iconvs($v[14]), (float)$v[17], (float)$v[22], (float)$v[23], $this->iconvs($v[24]),];
             if (empty($date) || empty($productId)) continue;
             if (isset($sumData[$date . '_' . $productId . '_' . $shopname])) {
                 $sumData[$date . '_' . $productId . '_' . $shopname]['productNumber'] = $sumData[$date . '_' . $productId . '_' . $shopname]['productNumber'] + $productNumber;
@@ -304,6 +302,10 @@ class loadData extends Command
         return ['shopName' => $shopNames, 'sumData' => $sumData];
     }
 
+    public function iconvs($str)
+    {
+        return mb_convert_encoding($str, 'utf-8', array('GBK'));
+    }
 
     /**
      * 获取近期修改过的Excel
