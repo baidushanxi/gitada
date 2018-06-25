@@ -157,33 +157,39 @@ class loadData extends Command
     {
         $shops = $shops ?: AdaShop::all()->keyBy('shopName')->toArray();
         $shop = [];
-        foreach ($shops as $v) {
-            $shop[mb_substr($v['shopName'], 0, 8)] = $v;
+        foreach ($shops as $k => $v){
+            $shop[mb_substr($k, 0, 8)] = $v;
         }
 
-        $fileContent = file_get_contents(base_path($file));
-        $arr = explode("\n", $fileContent);
-        $res = [];
-        $createShops = [];
+        $shopData = [];
+        if (($handle = fopen(base_path($file), "r")) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $shopName = mb_convert_encoding($data[5], 'utf-8', array('GBK'));
+                $date = str_replace('/', '-', $data[1]);
+                if(empty($shopName) || $shopName == '店铺名称' || !strstr($shopName,'DS10')){
+                    continue;
+                }
+                $subShopName = mb_substr($shopName, 0, 8);
+                $shopId = !empty($shop[$subShopName]) ? $shop[$subShopName]['id'] : ($createShops[$subShopName] ?? 0);
+                if ($shopId == 0) {
+                    $shopInfo = AdaShop::create([
+                        'shopName' => $shopName,
+                    ]);
+                    $createShops[mb_substr($shopName, 0, 8)] = $shopInfo->id;
+                    $shopId = $shopInfo->id;
+                }
 
-        foreach ($arr as $k => $v) {
-            if ($k == 0 || empty($v[0])) continue;
-            $data = explode(',', $v);
-            $date = str_replace('/', '-', $data[1]);
-            $shopName = mb_convert_encoding($data[5], 'utf-8', array('Unicode', 'ASCII', 'GB2312', 'GBK', 'UTF-8'));
-            $subShopName = mb_substr($shopName, 0, 8);
-            $shopId = !empty($shop[$subShopName]) ? $shop[$subShopName]['id'] : ($createShops[$subShopName] ?? 0);
-            if ($shopId == 0) {
-                $shopInfo = AdaShop::create([
-                    'shopName' => $shopName,
-                ]);
-                $createShops[$subShopName] = $shopInfo->id;
-                $shopId = $shopInfo->id;
+                $shopData[$date . '_' . $shopId]['data'][] = $data[3];
+                $shopData[$date . '_' .$shopId]['name'] = $data[3];
             }
-            $key = $shopId . '_' . $date;
-            $res[$key] = !isset($res[$key]) ? 1 : ($res[$key] + 1);
-
+            fclose($handle);
         }
+
+        $res = [];
+        foreach ($shopData as $k => &$v){
+            $res[$k] = count(array_unique($v['data']));
+        }
+
         return $res;
     }
 
