@@ -61,8 +61,8 @@ class DataController extends GeneralController
             isset($data[$v->shopId]['shopName']) ? '' : ($data[$v->shopId]['shopName'] = $shops[$v->shopId]->shopName);
             isset($data[$v->shopId]['spread']) ? '' : ($data[$v->shopId]['spread'] = $spreadData[$v->shopId] ?? 0);
             isset($data[$v->shopId]['deliver']) ? '' : ($data[$v->shopId]['deliver'] = $deliverData[$v->shopId] ?? 0);
-            isset($data[$v->shopId]['deliverSum0']) ? '' : ($data[$v->shopId]['deliverSum0'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE0;
-            isset($data[$v->shopId]['deliverSum']) ? '' : ($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE;
+            isset($data[$v->shopId]['deliverSum0']) ? '' : (($data[$v->shopId]['deliverSum0'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE0);
+            isset($data[$v->shopId]['deliverSum']) ? '' : (($data[$v->shopId]['deliverSum'] = $deliverData[$v->shopId] ?? 0) * AdaDeliver::PRICE);
         }
         ksort($data);
 
