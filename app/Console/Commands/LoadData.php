@@ -42,11 +42,11 @@ class loadData extends Command
 
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
-        if ($schedule->status == Schedule::STATUS_DOING) {
-            $this->info('任务正在执行中,退出...');
-            \Log::info('任务正在执行中,退出...');
-            exit;
-        }
+//        if ($schedule->status == Schedule::STATUS_DOING) {
+//            $this->info('任务正在执行中,退出...');
+//            \Log::info('任务正在执行中,退出...');
+//            exit;
+//        }
 
         try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
@@ -63,7 +63,7 @@ class loadData extends Command
                 exit;
             }
 
-            $op_time = date('Y-m-d H:i:s', time());
+//            $op_time = date('Y-m-d H:i:s', time());
             $status = Schedule::STATUS_DOING;
 
             //获取最近上传的 EXCEL
@@ -260,10 +260,12 @@ class loadData extends Command
      */
     public function dealData($fileName)
     {
-        $data = $this->getDataFromExcel($fileName, 0);
-//        $handle = fopen(base_path($fileName), "r");
-//        $data = fgetcsv($handle, 1000, ",");
-//        fclose($handle);
+//        $data = $this->getDataFromExcel($fileName, 0);
+        $handle = fopen(base_path($fileName), "r");
+        while (($res = fgetcsv($handle, 1000, ",")) !== FALSE) {
+            $data[] = $res;
+        }
+        fclose($handle);
 
         $sumData = [];
         $shopNames = [];
