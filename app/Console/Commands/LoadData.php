@@ -165,7 +165,7 @@ class loadData extends Command
         if (($handle = fopen(base_path($file), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                 $shopName = mb_convert_encoding($data[5], 'utf-8', array('GBK'));
-                $date = str_replace('/', '-', $data[1]);
+                $date = date('Y-m-d', strtotime(str_replace('/', '-', $data[1])));
                 if(empty($shopName) || $shopName == '店铺名称' || !strstr($shopName,'DS10')){
                     continue;
                 }
