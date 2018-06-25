@@ -260,12 +260,12 @@ class loadData extends Command
      */
     public function dealData($fileName)
     {
-//        $data = $this->getDataFromExcel($fileName, 0);
-        $handle = fopen(base_path($fileName), "r");
-        while (($res = fgetcsv($handle, 1000, ",")) !== FALSE) {
-            $data[] = $res;
-        }
-        fclose($handle);
+        $data = $this->getDataFromExcel($fileName, 0);
+//        $handle = fopen(base_path($fileName), "r");
+//        while (($res = fgetcsv($handle, 1000, ",")) !== FALSE) {
+//            $data[] = $res;
+//        }
+//        fclose($handle);
 
         $sumData = [];
         $shopNames = [];
