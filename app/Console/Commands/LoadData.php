@@ -88,7 +88,6 @@ class loadData extends Command
 
                 foreach ($res as $k => $v) {
                     $key = explode('_', $k);
-                    echo $key;
                     $deliver = AdaDeliver::firstOrnew([
                         'date' => $key[1],
                         'shopId' => $key[0],
