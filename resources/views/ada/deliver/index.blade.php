@@ -42,6 +42,8 @@
                                 <tr>
                                     <td>{{ $shops[$v->shopId] ?? '' }}</td>
                                     <td>{{ $v->number }}</td>
+                                    <td>{{ $v->number *  \App\Models\AdaDeliver::PRICE0 }}</td>
+                                    <td>{{ $v->number * \App\Models\AdaDeliver::PRICE }}</td>
                                 </td>
                                 </tr>
                             @endforeach
