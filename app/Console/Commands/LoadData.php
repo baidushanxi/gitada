@@ -164,11 +164,12 @@ class loadData extends Command
         $shopData = [];
         if (($handle = fopen(base_path($file), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                if(empty($shopName)) continue;
                 $shopName = mb_convert_encoding($data[5], 'utf-8', array('GBK'));
-                $date = date('Y-m-d', strtotime(str_replace('/', '-', $data[1])));
                 if(empty($shopName) || $shopName == '店铺名称' || !strstr($shopName,'DS10')){
                     continue;
                 }
+                $date = date('Y-m-d', strtotime(str_replace('/', '-', $data[1])));
                 $subShopName = mb_substr($shopName, 0, 8);
                 $shopId = !empty($shop[$subShopName]) ? $shop[$subShopName]['id'] : ($createShops[$subShopName] ?? 0);
                 if ($shopId == 0) {
