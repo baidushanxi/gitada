@@ -59,10 +59,12 @@
                                  <td>{{ round(($v['makeSum']),2) }}</td>
                                  <td>{{ round(($v['produceSum']),2) }}</td>
                                  <td>{{ round(($v['manageSum']),2) }}</td>
+                                 <td>{{ round(($v['spread']),2) }}</td>
+
                                  <td>{{ $v['deliver'] }}</td>
                                  <td>{{ $v['deliverSum0'] }}</td>
                                  <td>{{ $v['deliverSum'] }}</td>
-                                 <td>{{ round(($v['spread']),2) }}</td>
+
                                  <td>{{ round(($shops[$key]->artificial * $v['amount'] /100),2) }}</td>
                                  <td>{{ round(($shops[$key]->public * $v['amount'] /100),2) }}</td>
                              </tr>
