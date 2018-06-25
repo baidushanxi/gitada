@@ -53,7 +53,6 @@ class loadData extends Command
             $lastFiles = $this->getLastExcelFiles('ada/Excel/', $schedule->op_time);
             $priceFile = $this->getLastExcelFiles('ada/UnitPrice/', $schedule->op_time);
             $deliverFile = $this->getLastExcelFiles('ada/Deliver/', $schedule->op_time);
-
             if ($priceFile) {
                 $this->loadUnitPrice();
             }
@@ -261,7 +260,11 @@ class loadData extends Command
      */
     public function dealData($fileName)
     {
-        $data = $this->getDataFromExcel($fileName, 0);
+        //$data = $this->getDataFromExcel($fileName, 0);
+        $handle = fopen(base_path($fileName), "r");
+        $data = fgetcsv($handle, 1000, ",");
+        fclose($handle);
+
         $sumData = [];
         $shopNames = [];
         foreach ($data as $k => $v) {
