@@ -162,7 +162,7 @@ class loadData extends Command
             $shop[mb_substr($v['shopName'], 0, 8)] = $v;
         }
 
-        $fileContent = file_get_contents(public_path($file));
+        $fileContent = file_get_contents(base_path($file));
         $arr = explode("\n", $fileContent);
         $res = [];
         $createShops = [];
