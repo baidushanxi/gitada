@@ -42,17 +42,18 @@ class loadData extends Command
 
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
-//        if ($schedule->status == Schedule::STATUS_DOING) {
-//            $this->info('任务正在执行中,退出...');
-//            \Log::info('任务正在执行中,退出...');
-//            exit;
-//        }
+        if ($schedule->status == Schedule::STATUS_DOING) {
+            $this->info('任务正在执行中,退出...');
+            \Log::info('任务正在执行中,退出...');
+            exit;
+        }
 
         try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
             $lastFiles = $this->getLastExcelFiles('ada/Excel/', $schedule->op_time);
             $priceFile = $this->getLastExcelFiles('ada/UnitPrice/', $schedule->op_time);
-            $deliverFile = $this->getLastExcelFiles('ada/Deliver/', $schedule->op_time);
+            $deliverFile = [];
+           // $deliverFile = $this->getLastExcelFiles('ada/Deliver/', $schedule->op_time);
             if ($priceFile) {
                 $this->loadUnitPrice();
             }
@@ -63,7 +64,7 @@ class loadData extends Command
                 exit;
             }
 
-//            $op_time = date('Y-m-d H:i:s', time());
+            $op_time = date('Y-m-d H:i:s', time());
             $status = Schedule::STATUS_DOING;
 
             //获取最近上传的 EXCEL
