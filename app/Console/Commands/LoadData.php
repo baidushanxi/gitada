@@ -179,8 +179,8 @@ class loadData extends Command
                     $shopId = $shopInfo->id;
                 }
 
-                $shopData[$date . '_' . $shopId]['data'][] = $data[3];
-                $shopData[$date . '_' .$shopId]['name'] = $data[3];
+                $shopData[$shopId .'_' . $date]['data'][] = $data[3];
+                $shopData[$shopId .'_' . $date]['name'] = $data[3];
             }
             fclose($handle);
         }
