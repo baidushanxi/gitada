@@ -271,6 +271,7 @@ class loadData extends Command
         $shopNames = [];
         foreach ($data as $k => $v) {
             if (in_array($k, [0, 1, 2])) continue;
+            if(empty($v[1]) || empty($v[2])) continue;
             $v[1] = $this->iconvs($v[1]);
             $v[2] = $this->iconvs($v[2]);
             if (empty($v[1]) || trim($v[1] == '小计') || trim($v[1]) == '合计') continue;
