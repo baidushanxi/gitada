@@ -123,7 +123,7 @@ class loadData extends Command
                         $adaExcel = AdaData::firstOrnew([
                             'date' => $v['date'],
                             'productId' => $v['productId'],
-                            'shopId' => $shops[$v['shopName']]['id'],
+                            'shopId' => !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id,
                         ]);
                         $adaExcel->productName = $v['productName'];
                         $adaExcel->productSize = $v['productSize'];
