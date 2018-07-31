@@ -123,7 +123,7 @@ class loadData extends Command
                     foreach ($data['sumData'] as $v) {
                         $shopId = !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id;
 
-                        if(!in_array($v['date'] . '|' .  $shopId)){
+                        if(!in_array(($v['date'] . '|' .  $shopId),$is_del)){
                             $is_del[] = $v['date'] . '|' .  $shopId;
                             AdaData::where(['date' => $v['date'],'shopId' => $shopId])->delete();
                         }
