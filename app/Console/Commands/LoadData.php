@@ -117,14 +117,20 @@ class loadData extends Command
                         }
                     }
                 }
+                $is_del = [];
 
                 if (!empty($data['sumData'])) {
                     foreach ($data['sumData'] as $v) {
-                        AdaData::where(['date' => $v['date'],'shopId' => !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id,])->delete();
+                        $shopId = !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id;
+
+                        if(!in_array($v['date'] . '|' .  $shopId)){
+                            $is_del[] = $v['date'] . '|' .  $shopId;
+                            AdaData::where(['date' => $v['date'],'shopId' => $shopId])->delete();
+                        }
                         $adaExcel = AdaData::firstOrnew([
                             'date' => $v['date'],
                             'productId' => $v['productId'],
-                            'shopId' => !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id,
+                            'shopId' => $shopId,
                         ]);
                         $adaExcel->productName = $v['productName'];
                         $adaExcel->productSize = $v['productSize'];
