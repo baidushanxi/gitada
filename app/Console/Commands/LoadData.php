@@ -120,6 +120,7 @@ class loadData extends Command
 
                 if (!empty($data['sumData'])) {
                     foreach ($data['sumData'] as $v) {
+                        AdaData::where(['date' => $v['date'],'shopId' => !empty($shops[$v['shopName']]) ? $shops[$v['shopName']]['id'] : $shopInfo->id,])->delete();
                         $adaExcel = AdaData::firstOrnew([
                             'date' => $v['date'],
                             'productId' => $v['productId'],
