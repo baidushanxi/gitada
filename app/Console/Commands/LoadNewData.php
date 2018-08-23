@@ -51,7 +51,7 @@ class LoadNewData extends Command
             if (!$dataNew) {
                 $this->info("未扫描到新文件");
                 \Log::info('未扫描到新文件');
-                exit;
+                return;
             }
             $op_time = date('Y-m-d H:i:s', time());
             $status = Schedule::STATUS_DOING;
