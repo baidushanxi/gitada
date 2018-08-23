@@ -15,6 +15,9 @@ Route::get('/', 'DataController@index')->name('ada.index');
 Route::get('/ada/data', 'DataController@index')->name('ada.data');
 Route::get('/ada/data/export', 'DataController@export')->name('ada.data.export');
 
+Route::get('/ada/datanew', 'DataNewController@index')->name('ada.datanew');
+Route::get('/ada/datanew/detail', 'DataNewController@detail')->name('adaDataNew.detail');
+
 
 Route::get('/ada/data/loadStatus', 'DataController@loadStatus')->name('ada.data.loadStatus');
 Route::get('/ada/data/unitPrice', 'UnitPriceController@index')->name('ada.data.unitPrice');

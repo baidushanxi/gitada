@@ -8,11 +8,13 @@ class AdaData extends ScopeDateRange
 {
     public $productName;
     public $productId;
+    public $shopId;
 
     public function __construct(array $params)
     {
         $this->productName = $params['product_name'] ?? '';
         $this->productId = $params['product_id'] ?? '';
+        $this->shopId = $params['shopId'] ?? '';
         parent::__construct($params);
     }
 
@@ -30,6 +32,10 @@ class AdaData extends ScopeDateRange
 
         if (!empty($this->productName)) {
             $where[] = 'productName  LIKE "%' . trim($this->productName) . '%"';
+        }
+
+        if (!empty($this->shopId)) {
+            $where[] = 'shopId  = "' . trim($this->shopId) . '"';
         }
 
         if (!empty($this->productId)) {

@@ -26,8 +26,8 @@
                             <a href="#"><i class="fa fa-rmb"></i> <span class="nav-label">Ada~</span><span
                                         class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li @if (Route::is('ada.data')) class="active" @endif>
-                                    <a href="{{ route('ada.data') }}">导入数据整理</a>
+                                <li @if (Route::is('ada.datanew')) class="active" @endif>
+                                    <a href="{{ route('ada.datanew') }}">导入数据整理</a>
                                 </li>
 
                                 <li @if (Route::is('ada.spread*')) class="active" @endif>
