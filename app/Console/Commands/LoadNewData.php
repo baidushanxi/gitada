@@ -161,7 +161,7 @@ class LoadNewData extends Command
     }
 
 
-    public function getDataFromExcel($fileName, $sheet = 1)
+    public function getDataFromExcel($fileName, $sheet = 0)
     {
         $data = [];
         \Excel::load($fileName, function ($reader) use ($sheet, &$data) {
