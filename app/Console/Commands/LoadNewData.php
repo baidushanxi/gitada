@@ -45,7 +45,7 @@ class LoadNewData extends Command
             exit;
         }
 
-        try {
+//        try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
             $dataNew = $this->getLastExcelFiles('ada/Excel/', $schedule->op_time);
             if (!$dataNew) {
@@ -79,13 +79,13 @@ class LoadNewData extends Command
             $status = Schedule::STATUS_NONE;
             $message = "执行成功啦！去看看吧。☺️";
             $schedule->update(compact('status', 'message'));
-        } catch (\Exception $e) {
-            \Log::info("导入失败了：" . $e->getMessage());
-            $this->info("导入失败了：" . $e->getMessage());
-            $status = Schedule::STATUS_FAILED;
-            $message = "导入失败了：" . $e->getMessage();
-            $schedule->update(compact('status', 'message'));
-        }
+//        } catch (\Exception $e) {
+//            \Log::info("导入失败了：" . $e->getMessage());
+//            $this->info("导入失败了：" . $e->getMessage());
+//            $status = Schedule::STATUS_FAILED;
+//            $message = "导入失败了：" . $e->getMessage();
+//            $schedule->update(compact('status', 'message'));
+//        }
     }
 
 
