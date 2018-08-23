@@ -42,10 +42,10 @@ class LoadNewData extends Command
         if ($schedule->status == Schedule::STATUS_DOING) {
             $this->info('任务正在执行中,退出...');
             \Log::info('任务正在执行中,退出...');
-            exit;
+            return;
         }
 
-//        try {
+        try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
             $dataNew = $this->getLastExcelFiles('ada/Excel/', $schedule->op_time);
             if (!$dataNew) {
@@ -79,13 +79,13 @@ class LoadNewData extends Command
             $status = Schedule::STATUS_NONE;
             $message = "执行成功啦！去看看吧。☺️";
             $schedule->update(compact('status', 'message'));
-//        } catch (\Exception $e) {
-//            \Log::info("导入失败了：" . $e->getMessage());
-//            $this->info("导入失败了：" . $e->getMessage());
-//            $status = Schedule::STATUS_FAILED;
-//            $message = "导入失败了：" . $e->getMessage();
-//            $schedule->update(compact('status', 'message'));
-//        }
+        } catch (\Exception $e) {
+            \Log::info("导入失败了：" . $e->getMessage());
+            $this->info("导入失败了：" . $e->getMessage());
+            $status = Schedule::STATUS_FAILED;
+            $message = "导入失败了：" . $e->getMessage();
+            $schedule->update(compact('status', 'message'));
+        }
     }
 
 
@@ -110,6 +110,8 @@ class LoadNewData extends Command
                 $costKey = array_search('成本价', $v);
                 continue;
             }
+
+            if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) continue;
 
             if ($type == 'csv') {
                 list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($this->iconvs($v[$shopNameKey]), 2, 6), $this->iconvs($v[$shopNameKey]), intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
