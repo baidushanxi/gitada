@@ -112,7 +112,7 @@ class LoadNewData extends Command
             }
 
             if ($type == 'csv') {
-                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($this->iconvs($v[$shopNameKey]), 2, 6), $this->iconvs($shopNameKey), intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
+                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($this->iconvs($v[$shopNameKey]), 2, 6), $this->iconvs($v[$shopNameKey]), intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
             } else {
                 list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($v[$shopNameKey], 2, 6), $v[$shopNameKey], intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
             }
