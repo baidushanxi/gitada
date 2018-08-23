@@ -39,11 +39,11 @@ class LoadNewData extends Command
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
 
-//        if ($schedule->status == Schedule::STATUS_DOING) {
-//            $this->info('任务正在执行中,退出...');
-//            \Log::info('任务正在执行中,退出...');
-//            exit;
-//        }
+        if ($schedule->status == Schedule::STATUS_DOING) {
+            $this->info('任务正在执行中,退出...');
+            \Log::info('任务正在执行中,退出...');
+            exit;
+        }
 
         try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
@@ -58,10 +58,10 @@ class LoadNewData extends Command
             $schedule->save();
 
             //获取最近上传的 EXCEL
-//            if ($dataNew) {
-//                $message = "正在导入数据，小可爱稍微等等 ^.^";
-//                $schedule->update(compact('status', 'op_time', 'message'));
-//            }
+            if ($dataNew) {
+                $message = "正在导入数据，小可爱稍微等等 ^.^";
+                $schedule->update(compact('status', 'op_time', 'message'));
+            }
             foreach ($dataNew as $file) {
                 $this->info("开始导入数据" . $file);
                 if (strpos($file, '.csv')) {
