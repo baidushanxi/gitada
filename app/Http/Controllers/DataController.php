@@ -74,7 +74,7 @@ class DataController extends GeneralController
     public function loadStatus()
     {
         $title = '自动导入数据状态';
-        $status = Schedule::where(['name' => 'load-data'])->first();
+        $status = Schedule::where(['name' => 'load-data-new'])->first();
         return view('ada.data.load-status', compact('title', 'status'));
     }
 

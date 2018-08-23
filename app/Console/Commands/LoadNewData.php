@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\AdaData;
 use App\Models\AdaDataNew;
-use App\Models\AdaDeliver;
 use App\Models\AdaShop;
 use App\Models\Schedule;
 use Illuminate\Console\Command;
