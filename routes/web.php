@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'DataController@index')->name('ada.index');
+Route::get('/', 'DataNewController@index')->name('ada.index');
 
 Route::get('/ada/data', 'DataController@index')->name('ada.data');
 Route::get('/ada/data/export', 'DataController@export')->name('ada.data.export');
