@@ -39,11 +39,11 @@ class LoadNewData extends Command
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
 
-        if ($schedule->status == Schedule::STATUS_DOING) {
-            $this->info('任务正在执行中,退出...');
-            \Log::info('任务正在执行中,退出...');
-            exit;
-        }
+//        if ($schedule->status == Schedule::STATUS_DOING) {
+//            $this->info('任务正在执行中,退出...');
+//            \Log::info('任务正在执行中,退出...');
+//            exit;
+//        }
 
         try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
@@ -58,21 +58,20 @@ class LoadNewData extends Command
             $schedule->save();
 
             //获取最近上传的 EXCEL
-            $shops = AdaShop::all()->keyBy('shopName')->toArray();
-            if ($dataNew) {
-                $message = "正在导入数据，小可爱稍微等等 ^.^";
-                $schedule->update(compact('status', 'op_time', 'message'));
-            }
+//            if ($dataNew) {
+//                $message = "正在导入数据，小可爱稍微等等 ^.^";
+//                $schedule->update(compact('status', 'op_time', 'message'));
+//            }
             foreach ($dataNew as $file) {
                 $this->info("开始导入数据" . $file);
                 if (strpos($file, '.csv')) {
                     //使用csv读取文件
-                    $data= $this->getDataFromCsv($file, $shops);
-                    $this->storeData($data,'csv');
+                    $data = $this->getDataFromCsv($file);
+                    $this->storeData($data, 'csv');
                 } else {
                     //使用传统EXCEL读取文件
                     $data = $this->getDataFromExcel($file);
-                    $this->storeData($data,'excel');
+                    $this->storeData($data, 'excel');
                 }
                 $this->info("导入数据结束");
             }
@@ -90,15 +89,32 @@ class LoadNewData extends Command
     }
 
 
-    public function storeData($data,$type = 'csv')
+    public function storeData($data, $type = 'csv')
     {
         $sum = [];
         foreach ($data as $k => $v) {
-            if ($k == 0 || empty($v[0])) continue;
-            if($type == 'csv') {
-                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[23])), mb_substr($this->iconvs($v[11]), 2, 6), $this->iconvs($v[11]), intval($v['8']), $v[15], $v[14]];
-            }else {
-                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[23])), mb_substr($v[11], 2, 6), $v[11], intval($v['8']), $v[15], $v[14]];
+            if (empty($v[0])) continue;
+            if ($k == 0) {
+                if ($type == 'csv') {
+                    $dateKey = array_search(iconv('UTF-8', 'GBK', 'WMS发货时间'), $v) ?: 25;
+                    $shopNameKey = array_search(iconv('UTF-8', 'GBK', '店铺名称'), $v) ?: 10;
+                    $numberKey = array_search(iconv('UTF-8', 'GBK', '数量'), $v)  ?: 7;
+                    $saleKey = array_search(iconv('UTF-8', 'GBK', '销售金额'), $v)  ?: 14;
+                    $costKey = array_search(iconv('UTF-8', 'GBK', '成本价'), $v)  ?: 12;
+                    continue;
+                }
+                $dateKey = array_search('WMS发货时间', $v);
+                $shopNameKey = array_search('店铺名称', $v);
+                $numberKey = array_search('数量', $v);
+                $saleKey = array_search('销售金额', $v);
+                $costKey = array_search('成本价', $v);
+                continue;
+            }
+
+            if ($type == 'csv') {
+                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($this->iconvs($v[$shopNameKey]), 2, 6), $this->iconvs($shopNameKey), intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
+            } else {
+                list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($v[$shopNameKey], 2, 6), $v[$shopNameKey], intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
             }
             $key = $shopId . '_' . $date;
             if (!isset($sum[$key])) {
