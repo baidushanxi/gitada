@@ -39,11 +39,11 @@ class LoadNewData extends Command
         $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
         $this->output = new ConsoleOutput;
 
-        if ($schedule->status == Schedule::STATUS_DOING) {
-            $this->info('任务正在执行中,退出...');
-            \Log::info('任务正在执行中,退出...');
-            return;
-        }
+//        if ($schedule->status == Schedule::STATUS_DOING) {
+//            $this->info('任务正在执行中,退出...');
+//            \Log::info('任务正在执行中,退出...');
+//            return;
+//        }
 
         try {
             $schedule = Schedule::firstOrCreate(['name' => $this->signature]);
@@ -58,10 +58,10 @@ class LoadNewData extends Command
             $schedule->save();
 
             //获取最近上传的 EXCEL
-            if ($dataNew) {
-                $message = "正在导入数据，小可爱稍微等等 ^.^";
-                $schedule->update(compact('status', 'op_time', 'message'));
-            }
+//            if ($dataNew) {
+//                $message = "正在导入数据，小可爱稍微等等 ^.^";
+//                $schedule->update(compact('status', 'op_time', 'message'));
+//            }
             foreach ($dataNew as $file) {
                 $this->info("开始导入数据" . $file);
                 if (strpos($file, '.csv')) {
@@ -76,15 +76,15 @@ class LoadNewData extends Command
                 $this->info("导入数据结束");
             }
 
-            $status = Schedule::STATUS_NONE;
-            $message = "执行成功啦！去看看吧。☺️";
-            $schedule->update(compact('status', 'message'));
+//            $status = Schedule::STATUS_NONE;
+//            $message = "执行成功啦！去看看吧。☺️";
+//            $schedule->update(compact('status', 'message'));
         } catch (\Exception $e) {
             \Log::info("导入失败了：" . $e->getMessage());
             $this->info("导入失败了：" . $e->getMessage());
-            $status = Schedule::STATUS_FAILED;
-            $message = "导入失败了：" . $e->getMessage();
-            $schedule->update(compact('status', 'message'));
+//            $status = Schedule::STATUS_FAILED;
+//            $message = "导入失败了：" . $e->getMessage();
+//            $schedule->update(compact('status', 'message'));
         }
     }
 
@@ -118,6 +118,9 @@ class LoadNewData extends Command
             } else {
                 list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($v[$shopNameKey], 2, 6), $v[$shopNameKey], intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
             }
+
+            dd($date, $shopId, $shopName, $number, $sale, $cost);
+
             $key = $shopId . '_' . $date;
             if (!isset($sum[$key])) {
                 $sum[$key]['date'] = $date;             #时间
