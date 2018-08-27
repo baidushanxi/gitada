@@ -111,7 +111,10 @@ class LoadNewData extends Command
                 continue;
             }
 
-            if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) continue;
+            if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) {
+                $this->info(json_encode($v) . "表格有错");
+                continue;
+            }
 
             if ($type == 'csv') {
                 list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($this->iconvs($v[$shopNameKey]), 2, 6), $this->iconvs($v[$shopNameKey]), intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
