@@ -47,7 +47,7 @@
 @endsection
 
 @include('widget.tablesorter')
-@include('widget.fade-detail-modal', ['title'=> '分天报表','showChart'=>false ,'table_style' => 'font-size:14px;','detailHeader' => ['时间','店铺名称','成本','销售额']])
+@include('widget.fade-detail-modal', ['title'=> '分天报表','showChart'=>false ,'table_style' => 'font-size:14px;','detailHeader' => ['时间','店铺名称','销售额','成本']])
 @include('widget.highcharts')
 
 @section('scripts-last')

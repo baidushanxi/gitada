@@ -41,8 +41,8 @@ class DataNewController extends GeneralController
             SELECT
                 date,
                 MAX(shopName) AS shopName,
-                SUM(cost) AS cost,
-                SUM(sales) AS sales
+                SUM(sales) AS sales,
+                SUM(cost) AS cost
              FROM adaDataNew
              WHERE {$scope->getWhere()}  AND {$scope->getDateWhere(null, 'date')}
              GROUP BY date 
