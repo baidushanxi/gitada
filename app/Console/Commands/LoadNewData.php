@@ -112,9 +112,10 @@ class LoadNewData extends Command
                 continue;
             }
 
-            if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) {
-                $this->warn(json_encode($v) . '表格有错');
-                \Log::info(json_encode($v) . '表格有错');
+
+            if(!isset($v[$dateKey]) ||!isset($v[$shopNameKey]) ||!isset($v[$numberKey]) ||!isset($v[$saleKey]) ||!isset($v[$costKey]) ) {
+                \Log::info("表格存在错误". json_encode($v));
+                $this->info("表格中存在错误");
                 $success = false;
                 break;
             }
@@ -139,6 +140,7 @@ class LoadNewData extends Command
             $sum[$key]['cost'] += ($cost * $number);   #成本
         }
 
+        if($success == false) return;
         foreach ($sum as $v) {
             $adaExcel = AdaDataNew::firstOrnew([
                 'date' => $v['date'],
