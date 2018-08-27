@@ -113,7 +113,7 @@ class LoadNewData extends Command
 
             if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) {
                 $this->info(json_encode($v) . "表格有错");
-                continue;
+                break;
             }
 
             if ($type == 'csv') {
