@@ -18,8 +18,8 @@
                             <thead>
                             <tr class="font-bold">
                                 <th>店铺名称</th>
-                                <th>成本</th>
                                 <th>销售额</th>
+                                <th>成本</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -30,8 +30,8 @@
                                           BaseHtml::toggleModel( $v->shopName, route('adaDataNew.detail',array_merge(Request::all(),["scope[shopId]" => $v->shopId])),"#detail-modal", trans('app.查看') )
                                      !!}
                                  </td>
-                                 <td>{{ round(($v->cost),2)  }}</td>
                                  <td>{{ round(($v->sales),2)  }}</td>
+                                 <td>{{ round(($v->cost),2)  }}</td>
                              </tr>
                             @endforeach
                             </tbody>
