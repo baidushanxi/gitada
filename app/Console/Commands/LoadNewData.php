@@ -119,7 +119,6 @@ class LoadNewData extends Command
                 list($date, $shopId, $shopName, $number, $sale, $cost) = [date('Y-m-d', strtotime($v[$dateKey])), mb_substr($v[$shopNameKey], 2, 6), $v[$shopNameKey], intval($v[$numberKey]), $v[$saleKey], $v[$costKey]];
             }
 
-            dd($date, $shopId, $shopName, $number, $sale, $cost);
 
             $key = $shopId . '_' . $date;
             if (!isset($sum[$key])) {
