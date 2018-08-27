@@ -92,6 +92,7 @@ class LoadNewData extends Command
     public function storeData($data, $type = 'csv')
     {
         $sum = [];
+        $success = true;
         foreach ($data as $k => $v) {
             if (empty($v[0])) continue;
             if ($k == 0) {
@@ -112,7 +113,9 @@ class LoadNewData extends Command
             }
 
             if(empty($v[$dateKey]) ||empty($v[$shopNameKey]) ||empty($v[$numberKey]) ||empty($v[$saleKey]) ||empty($v[$costKey]) ) {
-                $this->info(json_encode($v) . "表格有错");
+                $this->warn(json_encode($v) . '表格有错');
+                \Log::info(json_encode($v) . '表格有错');
+                $success = false;
                 break;
             }
 
