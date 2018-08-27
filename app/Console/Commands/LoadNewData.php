@@ -96,11 +96,11 @@ class LoadNewData extends Command
             if (empty($v[0])) continue;
             if ($k == 0) {
                 if ($type == 'csv') {
-                    $dateKey = array_search(iconv('UTF-8', 'GBK', 'WMS发货时间'), $v) ?: 25;
-                    $shopNameKey = array_search(iconv('UTF-8', 'GBK', '店铺名称'), $v) ?: 10;
-                    $numberKey = array_search(iconv('UTF-8', 'GBK', '数量'), $v)  ?: 7;
-                    $saleKey = array_search(iconv('UTF-8', 'GBK', '销售金额'), $v)  ?: 14;
-                    $costKey = array_search(iconv('UTF-8', 'GBK', '成本价'), $v)  ?: 12;
+                    $dateKey = array_search(iconv('UTF-8', 'GBK', 'WMS发货时间'), $v);
+                    $shopNameKey = array_search(iconv('UTF-8', 'GBK', '店铺名称'), $v);
+                    $numberKey = array_search(iconv('UTF-8', 'GBK', '数量'), $v);
+                    $saleKey = array_search(iconv('UTF-8', 'GBK', '销售金额'), $v);
+                    $costKey = array_search(iconv('UTF-8', 'GBK', '成本价'), $v);
                     continue;
                 }
                 $dateKey = array_search('WMS发货时间', $v);
