@@ -115,7 +115,7 @@ class LoadNewData extends Command
 
             if(!isset($v[$dateKey]) ||!isset($v[$shopNameKey]) ||!isset($v[$numberKey]) ||!isset($v[$saleKey]) ||!isset($v[$costKey]) ) {
                 \Log::info("表格存在错误". json_encode($v));
-                $this->warn("表格中存在错误");
+                $this->info("表格中存在错误");
                 $success = false;
                 break;
             }
